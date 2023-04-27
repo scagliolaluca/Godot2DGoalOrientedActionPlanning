@@ -26,7 +26,16 @@ var _actor
 # when calculating action costs and status (e.g. the actor's position).
 #
 func _process(delta):
-	# TODO: fill with logic
+	var blackboard = {} # TODO: Fill with information
+
+	var bestGoal = _get_best_goal()
+	if bestGoal != _current_goal:
+		_current_plan = get_action_planner().get_plan(bestGoal, blackboard)
+		_current_plan_step = 0
+		_current_goal = bestGoal
+
+	_follow_plan(_current_plan, delta)
+
 	return
 
 
@@ -37,10 +46,15 @@ func init(actor, goals: Array):
 
 #
 # Returns the highest priority goal available.
+# Retruns None if no goal is valid
 #
 func _get_best_goal():
-	# TODO: fill with logic
-	return
+	var bestGoal = None
+	for goal in _goals:
+		if goal.is_valid and (bestGoal is None or bestGoal.priority() < goal.priority):
+			bestGoal = goal
+
+	return bestGoal
 
 
 #
@@ -55,5 +69,13 @@ func _get_best_goal():
 # the job is complete, so the agent can jump to the next action in the list.
 #
 func _follow_plan(plan, delta):
-	# TODO: fill with logic
+	if plan.empty():
+		return
+
+	var current_action = plan[_current_plan_step]
+	var finished = current_action.perform(_actor, delta)
+
+	if finished:
+		_current_plan_step += 1
+
 	return
