@@ -1,1 +1,24 @@
+Food: eat Mushrooms, cook Mushrooms
 
+
+If afraid and hungry: Run to stones
+
+
+later: If afraid and not hungry: attack
+
+
+Build Wood stock (when tree gets choped)
+If no firepit is burning --> go to wood stock and make firepit
+
+agent --> Alex
+
+action_planner --> Robert
+
+eat, Mushroom (Goal) --> Luca
+Relax
+
+
+Firepit --> Felix
+chop tree
+Build Wood stock (when tree gets choped)
+If no firepit is burning --> go to wood stock and make firepit
