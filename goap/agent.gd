@@ -31,12 +31,12 @@ func _process(delta):
 	var bestGoal = _get_best_goal()
 	if bestGoal is None:
 		return
-
+	
 	if bestGoal != _current_goal:
 		_current_plan = get_action_planner().get_plan(bestGoal, blackboard)
 		_current_plan_step = 0
 		_current_goal = bestGoal
-
+	
 	_follow_plan(_current_plan, delta)
 
 	return
@@ -76,6 +76,12 @@ func _follow_plan(plan, delta):
 		return
 
 	var current_action = plan[_current_plan_step]
+
+	# if a step of the plan is invalid, trigger a re-computation of the plan
+	if not current_action.is_valid():
+		_current_goal = None
+		return
+	
 	var finished = current_action.perform(_actor, delta)
 
 	if finished:
