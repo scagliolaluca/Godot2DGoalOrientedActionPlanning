@@ -29,6 +29,9 @@ func _process(delta):
 	var blackboard = {} # TODO: Fill with information
 
 	var bestGoal = _get_best_goal()
+	if bestGoal is None:
+		return
+
 	if bestGoal != _current_goal:
 		_current_plan = get_action_planner().get_plan(bestGoal, blackboard)
 		_current_plan_step = 0
@@ -69,7 +72,7 @@ func _get_best_goal():
 # the job is complete, so the agent can jump to the next action in the list.
 #
 func _follow_plan(plan, delta):
-	if plan.empty():
+	if plan.is_empty() or plan.size() <= _current_plan_step:
 		return
 
 	var current_action = plan[_current_plan_step]
