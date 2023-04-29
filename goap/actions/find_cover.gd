@@ -12,7 +12,7 @@ func get_clazz(): return "FindCoverAction"
 # does not allow this action anymore.
 #
 func is_valid() -> bool:
-    return true
+    return not WorldState.get_elements("cover").is_empty()
 
 
 #
@@ -20,7 +20,7 @@ func is_valid() -> bool:
 # state is considered when calculating the cost.
 #
 func get_cost(_blackboard) -> int:
-    # TODO: make dynamic?
+    # TODO: make dynamic? distance to cover? distance to troll?
     return 1000
 
 #

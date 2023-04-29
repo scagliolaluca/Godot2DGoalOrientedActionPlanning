@@ -5,8 +5,7 @@ class_name CalmDownGoal
 func get_clazz(): return "CalmDownGoal"
 
 func is_valid() -> bool:
-    # Only valid if frightened?
-	return true
+	return WorldState.get_state("is_frightened", false)
 
 func priority() -> int:
     # Should be higher than relax, but lower than eating (when very hungry)
