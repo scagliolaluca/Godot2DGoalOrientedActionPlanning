@@ -18,6 +18,7 @@ func _ready():
 	var agent = GoapAgent.new()
 	agent.init(self, [
 		RelaxGoal.new()
+		CalmDownGoal.new()
 	])
 	
 	add_child(agent)
