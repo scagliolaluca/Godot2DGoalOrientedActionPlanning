@@ -24,7 +24,8 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 	print("Goal: %s" % goal.get_clazz())
 	WorldState.console_message("Goal: %s" % goal.get_clazz())
 	# TODO: fill with logic
-	return []
+	return [_actions[2], _actions[1], _actions[2], _actions[2], _actions[2], _actions[2], _actions[1]]
+
 
 
 #
@@ -36,6 +37,7 @@ func _find_best_plan(goal, desired_state, blackboard):
 	return []
 
 
+
 #
 # Compares plans' costs.
 # Returns actions included in the cheapest plan.
@@ -43,6 +45,7 @@ func _find_best_plan(goal, desired_state, blackboard):
 func _get_cheapest_plan(plans):
 	# TODO: fill with logic
 	return []
+
 
 
 #
@@ -64,6 +67,7 @@ func _build_plans(step, blackboard):
 	# TODO: fill with logic
 	return false
 
+
 #
 # Transforms graph with actions into list of actions and calculates
 # the cost by summing actions' cost
@@ -73,6 +77,7 @@ func _build_plans(step, blackboard):
 func _transform_tree_into_array(p, blackboard):
 	# TODO: fill with logic
 	return []
+
 
 
 #
