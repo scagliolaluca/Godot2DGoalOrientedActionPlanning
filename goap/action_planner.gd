@@ -49,6 +49,7 @@ func _find_best_plan(goal, desired_state, blackboard):
 		return []
 
 
+
 #
 # Compares plans' costs.
 # Returns actions included in the cheapest plan.
@@ -61,6 +62,7 @@ func _get_cheapest_plan(plans):
 		if plans[i].cost < cheapest_plan.cost:
 			cheapest_plan = plans[i]
 	return cheapest_plan
+
 
 
 #
@@ -101,6 +103,7 @@ func _build_plans(step, blackboard):
 						valid_plan = true
 	return valid_plan
 
+
 #
 # Transforms graph with actions into list of actions and calculates
 # the cost by summing actions' cost
@@ -118,6 +121,7 @@ func _transform_tree_into_array(p, blackboard):
 			for sub_plan in sub_plans:
 				plans.append([child.action] + sub_plan)
 	return plans
+
 
 
 #

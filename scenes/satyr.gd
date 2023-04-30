@@ -18,6 +18,9 @@ func _ready():
 	var agent = GoapAgent.new()
 	agent.init(self, [
 		RelaxGoal.new()
+		CalmDownGoal.new(),
+		FullGoal.new(),
+		SearchFoodGoal.new()
 	])
 	
 	add_child(agent)
@@ -36,6 +39,7 @@ func _process(_delta):
 
 
 
+
 func move_to(direction, delta):
 	is_moving = true
 	is_attacking = false
@@ -46,7 +50,7 @@ func move_to(direction, delta):
 		turn_left()
 
   # warning-ignore:return_value_discarded
-	move_and_collide(direction * delta * 100)
+	move_and_collide(direction * delta * 1)
 
 
 
@@ -68,6 +72,7 @@ func chop_tree(tree):
 	var is_finished = tree.chop()
 	is_attacking = not is_finished
 	return is_finished
+
 
 
 func calm_down():
