@@ -4356,9 +4356,11 @@ position = Vector2(157, 217)
 position = Vector2(422, 217)
 
 [node name="mushroom" parent="." instance=ExtResource("7")]
+visible = false
 position = Vector2(138, 26)
 
 [node name="mushroom2" parent="." instance=ExtResource("7")]
+visible = false
 position = Vector2(158, 26)
 
 [node name="mushroom3" parent="." instance=ExtResource("7")]

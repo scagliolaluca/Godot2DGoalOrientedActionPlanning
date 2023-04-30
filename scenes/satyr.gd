@@ -18,7 +18,8 @@ func _ready():
 	var agent = GoapAgent.new()
 	agent.init(self, [
 		RelaxGoal.new(),
-		FullGoal.new()
+		FullGoal.new(),
+		SearchFoodGoal.new()
 	])
 	
 	add_child(agent)
@@ -48,7 +49,7 @@ func move_to(direction, delta):
 		turn_left()
 
   # warning-ignore:return_value_discarded
-	move_and_collide(direction * delta * 100)
+	move_and_collide(direction * delta * 1)
 
 
 

@@ -20,30 +20,29 @@ func get_preconditions() -> Dictionary:
 	return {}
 
 func get_effects() -> Dictionary:
-	return {"has_food": 1}
+	var food_state = WorldState.get_state("has_food")
+	food_state = food_state + 1
+	return {"has_food": food_state}
 
 func perform(_actor, delta):
 
-    #get position of nearest mushroom
-	var mushrooms = get_tree().get_nodese_in_group("mushroom")
-	var nearest_mushroom = null
-	var nearest_distance = 9999999
-	for mushroom in mushrooms:
-		var distance = _actor.get_position().distance_to(mushroom.get_postition())
-		if distance < nearest_distance:
-			nearest_mushroom = mushroom
-			nearest_distance = distance
+	#get position of nearest mushroom
+	var nearest_mushroom = WorldState.get_closest_element("food", _actor)
 
 	if nearest_mushroom != null:
-		_target_mushroom = nearest_mushroom
+		var moveDirection = nearest_mushroom.position - _actor.position
 
-    #move to nearest mushroom and collect it
-		#Does this actually work??
-		_actor.move_to(_target_mushroom, delta) #move to nearest mushroom, then collect it
-	
-		#update has_food WorldState
+		#move to nearest mushroom and collect it
+		if _actor.position.distance_to(nearest_mushroom.position) > 1:
+			_actor.move_to(moveDirection, delta) #move to nearest mushroom, then collect it
+			return false
+
+		#update has_food WorldState when NPC is arrived
 		var food_state = WorldState.get_state("has_food")
-		food_state = food_state + 1
-		WorldState.set_state("has_food", food_state)
+		if food_state:
+			food_state = food_state + 1
+			WorldState.set_state("has_food", food_state)
+		else:
+			WorldState.set_state("has_food", 1)
 
 		return true

@@ -12,7 +12,11 @@ func get_clazz():
 
 #Check if NPC is near Mushroom/has Mushroom in its hands
 func is_valid() -> bool:
-	return WorldState.get_state("has_food")
+	var food_state = WorldState.get_state("has_food")
+	if not food_state: # same as: food_state == null or food_state == 0:
+		WorldState.set_state("has_food", 0)
+		return false
+	return true
 
 #Eating is basic need, so no cost for that
 func get_cost(_blackboard) -> int:
@@ -20,6 +24,9 @@ func get_cost(_blackboard) -> int:
 
 #Check preconditions for eating-action
 func get_preconditions() -> Dictionary:
+	var food_state = WorldState.get_state("has_food")
+	if food_state == null:
+		WorldState.set_state("has_food", 0)
 	return {"has_food": WorldState.get_state("has_food")}
 
 #Eating food restores hunger, and consumes food
@@ -34,6 +41,8 @@ func perform(_actor, _delta):
 	var mushroom_script = load("res://scenes//Mushroom.gd")
 	var mushroom_instance = mushroom_script.new()
 	hunger_state = hunger_state - mushroom_instance.nutrition #somhow need to get the nutrition lvl of the mushroom
+	if hunger_state <= 0:
+		hunger_state = 0
 	WorldState.set_state("hunger", hunger_state)
 
 	#update has_food WorldState
