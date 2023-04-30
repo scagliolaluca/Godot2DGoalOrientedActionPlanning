@@ -24,7 +24,7 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 	print("Goal: %s" % goal.get_clazz())
 	WorldState.console_message("Goal: %s" % goal.get_clazz())
 	# TODO: fill with logic
-	return [_actions[2], _actions[1]]
+	return [_actions[2], _actions[1], _actions[2], _actions[2], _actions[2], _actions[2], _actions[1]]
 
 
 

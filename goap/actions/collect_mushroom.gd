@@ -36,7 +36,10 @@ func perform(_actor, delta):
 		if _actor.position.distance_to(nearest_mushroom.position) > 1:
 			_actor.move_to(moveDirection, delta) #move to nearest mushroom, then collect it
 			return false
-
+		
+		#delete mushroom from scenen after NPC consumed
+		nearest_mushroom.queue_free()
+		
 		#update has_food WorldState when NPC is arrived
 		var food_state = WorldState.get_state("has_food")
 		if food_state:
