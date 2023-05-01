@@ -24,11 +24,12 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 	print("Goal: %s" % goal.get_clazz())
 	WorldState.console_message("Goal: %s" % goal.get_clazz())
 	#get the desired goal and find the best plan to achieve it
-	var desired_state = goal.get_desired_state().duplicate()
+	#var desired_state = goal.get_desired_state().duplicate()
 	#if there is no desired state we can't find a plan to achieve it so retun empty array
-	if desired_state.is_empty():
-		return []
-	return _find_best_plan(goal, desired_state, blackboard)
+	#if desired_state.is_empty():
+	#	return []
+	#return _find_best_plan(goal, desired_state, blackboard)
+	return[_actions[4], _actions[3], _actions[3], _actions[1], _actions[2]]
 
 
 #
@@ -42,7 +43,7 @@ func _find_best_plan(goal, desired_state, blackboard):
 			"children": [],
 			"desired_states": desired_state
 		}
-	tree.graph.add_node("root")
+	#tree.graph.add_node("root")
 	if _build_plans(tree, blackboard):
 		return _get_cheapest_plan(_transform_tree_into_array(tree, blackboard))
 	else:
@@ -102,6 +103,7 @@ func _build_plans(step, blackboard):
 					else:
 						valid_plan = true
 	return valid_plan
+
 
 
 #

@@ -18,7 +18,8 @@ func _ready():
 		ChopTreeAction.new(),
 		FindCoverAction.new(),
 		EatAction.new(),
-		CollectMushroomAction.new()
+		CollectMushroomAction.new(),
+		BuildFireAction.new()
 	])
 
 

@@ -12,7 +12,7 @@ func get_clazz(): return "FindCoverAction"
 # does not allow this action anymore.
 #
 func is_valid() -> bool:
-    return not WorldState.get_elements("cover").is_empty()
+	return not WorldState.get_elements("cover").is_empty()
 
 
 #
@@ -20,8 +20,8 @@ func is_valid() -> bool:
 # state is considered when calculating the cost.
 #
 func get_cost(_blackboard) -> int:
-    # TODO: make dynamic? distance to cover? distance to troll?
-    return 1000
+	# TODO: make dynamic? distance to cover? distance to troll?
+	return 1000
 
 #
 # Action requirements.
@@ -31,7 +31,7 @@ func get_cost(_blackboard) -> int:
 # }
 #
 func get_preconditions() -> Dictionary:
-    return {}
+	return {}
 
 
 #
@@ -42,7 +42,7 @@ func get_preconditions() -> Dictionary:
 #   "has_wood": true
 # }
 func get_effects() -> Dictionary:
-    return {"is_frightened": false}
+	return {"is_frightened": false}
 
 
 #
@@ -55,12 +55,14 @@ func get_effects() -> Dictionary:
 # Check "./actions/chop_tree.gd" for example.
 #
 func perform(_actor, _delta) -> bool:
-    var closestCover = WorldState.get_closest_element("cover", _actor)
+	var closestCover = WorldState.get_closest_element("cover", _actor)
 
-    if closestCover.distance_to(_actor.position) < 1:
-        return _actor.calm_down()
-    
-    var moveDirection = closestCover.position - _actor.position
-    _actor.move_to(moveDirection, _delta)
+#	if closestCover.distance_to(_actor.position) < 1:
+	if _actor.position.distance_to(closestCover.position) < 1:
 
-    return false
+		return _actor.calm_down()
+	
+	var moveDirection = closestCover.position - _actor.position
+	_actor.move_to(moveDirection, _delta)
+
+	return false
