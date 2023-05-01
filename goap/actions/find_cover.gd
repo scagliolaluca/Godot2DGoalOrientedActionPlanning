@@ -57,7 +57,7 @@ func get_effects() -> Dictionary:
 func perform(_actor, _delta) -> bool:
     var closestCover = WorldState.get_closest_element("cover", _actor)
 
-    if closestCover.distance_to(_actor.position) < 1:
+	if _actor.position.distance_to(closestCover.position) < 1:
         return _actor.calm_down()
     
     var moveDirection = closestCover.position - _actor.position
