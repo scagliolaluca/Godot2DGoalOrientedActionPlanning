@@ -18,9 +18,12 @@ func priority() -> int:
 	elif food_state == 2: #already could recover 60 food
 		return 20
 	else: # food_state > 2
-		return 5
+		return 0
 
 func get_desired_state() -> Dictionary:
 	var food_state = WorldState.get_state("has_food")
+	if food_state == null:
+		food_state = 0
+		WorldState.set_state("has_food", food_state)
 	food_state = food_state + 1
 	return{"has_food": food_state}

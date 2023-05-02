@@ -13,3 +13,6 @@ func is_valid() -> bool:
 
 func priority():
 	return 1
+
+func priority():
+	return 1

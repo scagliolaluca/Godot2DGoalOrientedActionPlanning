@@ -17,10 +17,11 @@ func _ready():
   # npc.
 	var agent = GoapAgent.new()
 	agent.init(self, [
-		RelaxGoal.new()
+		RelaxGoal.new(),
 		CalmDownGoal.new(),
 		FullGoal.new(),
-		SearchFoodGoal.new()
+		SearchFoodGoal.new(),
+		HasLitFireGoal.new()
 	])
 	
 	add_child(agent)
@@ -41,6 +42,7 @@ func _process(_delta):
 
 
 func move_to(direction, delta):
+	direction = direction.normalized()
 	is_moving = true
 	is_attacking = false
 	$body.play("run")
@@ -50,7 +52,7 @@ func move_to(direction, delta):
 		turn_left()
 
   # warning-ignore:return_value_discarded
-	move_and_collide(direction * delta * 1)
+	move_and_collide(direction * delta * 100)
 
 
 
