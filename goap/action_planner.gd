@@ -29,7 +29,7 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 	#if desired_state.is_empty():
 	#	return []
 	#return _find_best_plan(goal, desired_state, blackboard)
-	return[_actions[4], _actions[3], _actions[3], _actions[1], _actions[2]]
+	return[_actions[4], _actions[3], _actions[3], _actions[1], _actions[2], _actions[0], _actions[0]]
 
 
 #
