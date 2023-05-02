@@ -24,14 +24,24 @@ func get_cost(_blackboard) -> int:
 
 #Check preconditions for eating-action
 func get_preconditions() -> Dictionary:
-	var food_state = WorldState.get_state("has_food")
-	if food_state == null:
-		WorldState.set_state("has_food", 0)
-	return {"has_food": WorldState.get_state("has_food")}
+
+	#use this for has_food = int
+	#var food_state = WorldState.get_state("has_food")
+	#if food_state == null:
+	#	WorldState.set_state("has_food", 0)
+	#return {"has_food": WorldState.get_state("has_food")}
+
+	#use this for has_food = bool
+	return {"has_food": true}
 
 #Eating food restores hunger, and consumes food
 func get_effects() -> Dictionary:
-	return {"has_food": -1, "hunger": -30}
+
+	#use this for has_food = int
+	#return {"has_food": -1, "hunger": (WorldState.get_state("hunger") - 30)} #need to acces the mushroom nutrition
+
+	#use this for has_food = bool
+	return {"has_food": false, "hunger": (WorldState.get_state("hunger") - 30)}
 
 #return true, if food is eaten, and hunger is restored
 func perform(_actor, _delta):
@@ -46,9 +56,14 @@ func perform(_actor, _delta):
 	WorldState.set_state("hunger", hunger_state)
 
 	#update has_food WorldState
-	var food_state = WorldState.get_state("has_food")
-	food_state = food_state - 1
-	WorldState.set_state("has_food", food_state)
+
+	#use this for has_food = int
+	#var food_state = WorldState.get_state("has_food")
+	#food_state = food_state - 1
+	#WorldState.set_state("has_food", food_state)
+
+	#use this for has_food = bool
+	WorldState.set_state("has_food", false)
 
 	return true
 
