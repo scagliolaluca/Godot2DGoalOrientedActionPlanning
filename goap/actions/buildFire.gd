@@ -26,9 +26,4 @@ func get_preconditions():
 	return {"has_wood": true}
 func get_effects() -> Dictionary:
 	#return {"has_firepit":true}
-	return {"has_firepit": true, "has_wood": false} 
-
-func get_preconditions():
-    return {"has_wood":true}
-func get_effects() -> Dictionary:
-    return {"has_firepit":true}
+	return {"has_firepit": true, "has_wood": false}
