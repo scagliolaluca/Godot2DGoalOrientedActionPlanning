@@ -20,9 +20,14 @@ func get_preconditions() -> Dictionary:
 	return {}
 
 func get_effects() -> Dictionary:
-	var food_state = WorldState.get_state("has_food")
-	food_state = food_state + 1
-	return {"has_food": food_state}
+	
+	#use this for food_state = int
+	#var food_state = WorldState.get_state("has_food")
+	#food_state = food_state + 1
+	#return {"has_food": food_state}
+
+	#use this for food_state = bool
+	return {"has_food": true}
 
 func perform(_actor, delta):
 
@@ -40,12 +45,17 @@ func perform(_actor, delta):
 		#delete mushroom from scenen after NPC consumed
 		nearest_mushroom.queue_free()
 		
+		#use this for food_state = int
 		#update has_food WorldState when NPC is arrived
-		var food_state = WorldState.get_state("has_food")
-		if food_state:
-			food_state = food_state + 1
-			WorldState.set_state("has_food", food_state)
-		else:
-			WorldState.set_state("has_food", 1)
+		#var food_state = WorldState.get_state("has_food")
+		#if food_state:
+		#	food_state = food_state + 1
+		#	WorldState.set_state("has_food", food_state)
+		#else:
+		#	WorldState.set_state("has_food", 1)
 
+		#return true
+
+		#use this for food_state = bool
+		WorldState.set_state("has_food", 1)
 		return true
