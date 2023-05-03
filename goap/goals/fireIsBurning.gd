@@ -12,4 +12,4 @@ func is_valid() -> bool:
 	return WorldState.get_elements("firepit").size() < 1
 
 func priority():
-	return 1
+	return 70

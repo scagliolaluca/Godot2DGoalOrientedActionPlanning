@@ -57,5 +57,5 @@ func perform(_actor, delta):
 		#return true
 
 		#use this for food_state = bool
-		WorldState.set_state("has_food", 1)
+		WorldState.set_state("has_food", true)
 		return true

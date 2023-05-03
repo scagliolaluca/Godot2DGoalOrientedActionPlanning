@@ -11,4 +11,4 @@ func is_valid() -> bool:
 
 # relax has lower priority compared to other goals
 func priority() -> int:
-	return 1
+	return 0

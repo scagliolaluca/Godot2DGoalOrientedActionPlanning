@@ -26,12 +26,16 @@ func priority() -> int:
 	if food_state: #if food available
 		return 0
 	else: #if no food available
-		return 100
+		return 5
 
 func get_desired_state() -> Dictionary:
 	var food_state = WorldState.get_state("has_food")
 	if food_state == null:
 		food_state = 0
-		WorldState.set_state("has_food", food_state)
+		# for food_state = int: WorldState.set_state("has_food", food_state)
+
+		#for food_state = bool:
+		WorldState.set_state("has_food", false)
+
 	#food_state = food_state + 1 #for food_state = int
-	return{"has_food": 1} # for food_state = int: return{"has_food": food_state}
+	return{"has_food": true} # for food_state = int: return{"has_food": food_state}

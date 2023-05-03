@@ -26,10 +26,10 @@ var _actor
 # when calculating action costs and status (e.g. the actor's position).
 #
 func _process(delta):
-	# TODO: fill with logic
-	#return
-
-	var blackboard = {} # TODO: Fill with information
+	var hungry = false
+	if WorldState.get_state("hunger", 0) > 30:
+		hungry = true
+	var blackboard = {"position": _actor.position, "is_hungry": hungry} # TODO: Fill with information
 
 	var bestGoal = _get_best_goal()
 	if bestGoal != _current_goal:
@@ -57,7 +57,7 @@ func _get_best_goal():
 
 	var bestGoal = null
 	for goal in _goals:
-		if goal.is_valid and (bestGoal == null or bestGoal.priority() < goal.priority()):
+		if goal.is_valid() and (bestGoal == null or bestGoal.priority() < goal.priority()):
 			bestGoal = goal
 
 	return bestGoal
@@ -80,6 +80,7 @@ func _follow_plan(plan, delta):
 	#return
 
 	if plan.is_empty() or plan.size() <= _current_plan_step:
+		_current_goal = null
 		return
 
 	var current_action = plan[_current_plan_step]

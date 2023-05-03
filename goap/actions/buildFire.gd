@@ -14,6 +14,7 @@ func perform(actor, delta):
 		actor.get_parent().add_child(firepit)
 		firepit.position = closest.position
 		WorldState.set_state("has_wood", false)
+		WorldState.set_state("has_firepit", true)
 		return true
 	else:
 		#too far away, need to go to location first

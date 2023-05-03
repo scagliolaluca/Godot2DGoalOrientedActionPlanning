@@ -14,7 +14,11 @@ func get_clazz():
 func is_valid() -> bool:
 	var food_state = WorldState.get_state("has_food")
 	if not food_state: # same as: food_state == null or food_state == 0:
-		WorldState.set_state("has_food", 0)
+		# for has_food = int: WorldState.set_state("has_food", 0)
+
+		#for has_food = bool:
+		WorldState.set_state("has_food", false)
+
 		return false
 	return true
 
@@ -41,7 +45,7 @@ func get_effects() -> Dictionary:
 	#return {"has_food": -1, "hunger": (WorldState.get_state("hunger") - 30)} #need to acces the mushroom nutrition
 
 	#use this for has_food = bool
-	return {"has_food": false, "hunger": (WorldState.get_state("hunger") - 30)}
+	return {"has_food": false, "is_hungry": false}
 
 #return true, if food is eaten, and hunger is restored
 func perform(_actor, _delta):

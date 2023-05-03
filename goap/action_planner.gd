@@ -52,6 +52,7 @@ func _find_best_plan(goal, desired_state, blackboard):
 			"desired_states": desired_state,
 		}
 	if _build_plans(tree, blackboard):
+		
 		return _get_cheapest_plan(_transform_tree_into_array(tree, blackboard))
 	else:
 		WorldState.console_message({"Warning": "No plan found"})
@@ -104,12 +105,38 @@ func _build_plans(step, blackboard):
 						conditions.erase(effect)
 						conditions.merge(action.get_preconditions())
 						if conditions != {}:
-							var next_step ={
-								"action": action,
-								"children": [],
-								"desired_states": conditions
-							}
-							step.children.append(_build_plans(next_step, blackboard))
+							
+							#var next_step ={
+							#	"action": action,
+							#	"children": [],
+							#	"desired_states": conditions
+							#	}
+							#valid_plan = true
+							#step.children.append(_build_plans(next_step, blackboard))
+					
+							#LucaTEST:
+							for condition in conditions:
+								if WorldState.get_state(condition) == conditions[condition]:
+									var final_step ={
+									"action": action,
+									"children": [],
+									"desired_states": {}
+									}
+									
+									#valid_plan = true
+									step.children.append(final_step)
+									valid_plan = true
+								else:
+									var next_step ={
+										"action": action,
+										"children": [],
+										"desired_states": conditions
+										}
+									valid_plan = true
+									if _build_plans(next_step, blackboard):
+										step.children.append(next_step)
+					
+					
 						else:
 							var final_step ={
 									"action": action,
@@ -118,7 +145,10 @@ func _build_plans(step, blackboard):
 								}
 							step.children.append(final_step)
 							valid_plan = true
+	
 	return valid_plan	
+	#if valid_plan == true:
+	#	return step
 	
 #	var valid_plan = false
 #	#go through all actions and check if they have the d esired effect
