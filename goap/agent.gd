@@ -27,8 +27,10 @@ var _actor
 #
 func _process(delta):
 	var hungry = false
-	if WorldState.get_state("hunger", 0) > 30:
+
+	if WorldState.get_state("hunger", 0) > 30: #is_hungry variable in blackboard prevents npc from eating below hunger=30
 		hungry = true
+
 	var blackboard = {"position": _actor.position, "is_hungry": hungry} # TODO: Fill with information
 
 	var bestGoal = _get_best_goal()
