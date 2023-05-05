@@ -12,6 +12,7 @@ func get_clazz(): return "FindCoverAction"
 # does not allow this action anymore.
 #
 func is_valid() -> bool:
+	# Find cover requires a "cover" object to be present (should always be available)
 	return not WorldState.get_elements("cover").is_empty()
 
 
@@ -20,15 +21,12 @@ func is_valid() -> bool:
 # state is considered when calculating the cost.
 #
 func get_cost(_blackboard) -> int:
-	# TODO: make dynamic? distance to cover? distance to troll?
-	return 1000
+	# Cost is currently irrelevant since there are no alternative actions, to stop being frightened
+	return 1
 
 #
 # Action requirements.
-# Example:
-# {
-#   "has_wood": true
-# }
+# Going to a cover doesn't require any ressources
 #
 func get_preconditions() -> Dictionary:
 	return {}
@@ -36,11 +34,8 @@ func get_preconditions() -> Dictionary:
 
 #
 # What conditions this action satisfies
+# Going into cover stopps the Satyr from being frightened
 #
-# Example:
-# {
-#   "has_wood": true
-# }
 func get_effects() -> Dictionary:
 	return {"is_frightened": false}
 
@@ -50,16 +45,19 @@ func get_effects() -> Dictionary:
 # "actor" is the NPC using the AI.
 # "delta" is the time in seconds since last loop.
 #
-# Returns true when the task is complete.
+# Moves towards the closest cover and starts the calm down timer after arrival.
 #
-# Check "./actions/chop_tree.gd" for example.
+# Returns true when the calm down timer is expired.
 #
 func perform(_actor, _delta) -> bool:
+	# Find the closest cover
 	var closestCover = WorldState.get_closest_element("cover", _actor)
 
+	# Do the calm down action if close to a cover
 	if _actor.position.distance_to(closestCover.position) < 1:
 		return _actor.calm_down()
 	
+	# Alternatively: Move towards the closest cover
 	var moveDirection = closestCover.position - _actor.position
 	_actor.move_to(moveDirection, _delta)
 
