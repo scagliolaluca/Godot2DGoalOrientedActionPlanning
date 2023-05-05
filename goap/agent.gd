@@ -26,14 +26,14 @@ var _actor
 # when calculating action costs and status (e.g. the actor's position).
 #
 func _process(delta):
-	var hungry = false
+	# is_hungry variable in blackboard prevents npc from eating below hunger=30
+	var hungry = WorldState.get_state("hunger", 0) > 30
 
-	if WorldState.get_state("hunger", 0) > 30: #is_hungry variable in blackboard prevents npc from eating below hunger=30
-		hungry = true
-
-	var blackboard = {"position": _actor.position, "is_hungry": hungry} # TODO: Fill with information
+	# fill blackboard with relevant information
+	var blackboard = {"position": _actor.position, "is_hungry": hungry}
 
 	var bestGoal = _get_best_goal()
+	# if a new best goal is found, get the new plan and reset the plan step
 	if bestGoal != _current_goal:
 		_current_plan = Goap.get_action_planner().get_plan(bestGoal, blackboard)
 		_current_plan_step = 0
@@ -51,12 +51,10 @@ func init(actor, goals: Array):
 
 
 #
-# Returns the highest priority goal available.
+# Returns the highest priority goal available (that is valid).
+# Returns null if no goal is valid
 #
 func _get_best_goal():
-	# TODO: fill with logic
-	#return
-
 	var bestGoal = null
 	for goal in _goals:
 		if goal.is_valid() and (bestGoal == null or bestGoal.priority() < goal.priority()):
@@ -70,17 +68,16 @@ func _get_best_goal():
 # Executes plan. This function is called on every game loop.
 # "plan" is the current list of actions, and delta is the time since last loop.
 #
-# If the current plan is empty it does not do anything, otherwise it performs
-# the current step of the plan and checks whether it can move to the next
+# If the current plan is empty, is already finished or the next action is invalid,
+# it does not do anything and sets the current goal to null (to request a new plan),
+# otherwise it performs the current step of the plan and checks whether it can move to the next
 # plan step.
 #
 # Every action exposes a function called perform, which will return true when
 # the job is complete, so the agent can jump to the next action in the list.
 #
 func _follow_plan(plan, delta):
-	# TODO: fill with logic
-	#return
-
+	# check if there is a step left in the plan
 	if plan.is_empty() or plan.size() <= _current_plan_step:
 		_current_goal = null
 		return
@@ -93,7 +90,8 @@ func _follow_plan(plan, delta):
 		return
 		
 	var finished = current_action.perform(_actor, delta)
-
+	
+	# go to the next plan step if the action was finished
 	if finished:
 		_current_plan_step += 1
 
