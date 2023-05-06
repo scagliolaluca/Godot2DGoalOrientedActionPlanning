@@ -17,6 +17,7 @@ func _ready():
   # npc.
 	var agent = GoapAgent.new()
 	agent.init(self, [
+		CookGoal.new(),
 		RelaxGoal.new(),
 		CalmDownGoal.new(),
 		FullGoal.new(),

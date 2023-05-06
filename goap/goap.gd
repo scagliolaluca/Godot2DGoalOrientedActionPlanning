@@ -20,6 +20,7 @@ func _ready():
 		EatAction.new(),
 		CollectMushroomAction.new(),
 		BuildFireAction.new(),
+		CookAction.new(),
 		CollectWoodStockAction.new()
 	])
 

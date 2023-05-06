@@ -22,10 +22,10 @@ func get_cost(_blackboard) -> int:
 
 #only collect mushroom when no mushroom in inventory
 func get_preconditions() -> Dictionary:
-	return {"has_food": false}
+	return {"has_mushroom": false}
 
 func get_effects() -> Dictionary:
-	return {"has_food": true}
+	return {"has_mushroom": true}
 
 func perform(_actor, delta):
 
@@ -42,7 +42,7 @@ func perform(_actor, delta):
 		
 		#if npc is arrived at mushroom: collect it and start regrow process
 		nearest_mushroom.regrow()
-		WorldState.set_state("has_food", true)
+		WorldState.set_state("has_mushroom", true)
 		return true
 	# Shouldn't happen, but it's better for the action to be "finished" if it is impossible
 	return true

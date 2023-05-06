@@ -14,15 +14,15 @@ func is_valid() -> bool:
 
 #set prioritys for searchFood, depending on how much food the NPC has already collected
 func priority() -> int:
-	var food_state = WorldState.get_state("has_food", 0)
+	var food_state = WorldState.get_state("has_mushroom", 0)
 	if food_state: #if food available
 		return 0
 	else: #if no food available
 		return 5
 
 func get_desired_state() -> Dictionary:
-	var food_state = WorldState.get_state("has_food") #if has_food doesn't exist (in the begining), set it to false
+	var food_state = WorldState.get_state("has_mushroom") #if has_food doesn't exist (in the begining), set it to false
 	if food_state == null:
 		food_state = 0
-		WorldState.set_state("has_food", false)
-	return{"has_food": true}
+		WorldState.set_state("has_mushroom", false)
+	return{"has_mushroom": true}
