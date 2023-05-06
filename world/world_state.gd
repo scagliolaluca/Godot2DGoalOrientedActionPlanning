@@ -20,6 +20,7 @@ func get_elements(group_name):
 	return self.get_tree().get_nodes_in_group(group_name)
 
 
+#This function returns the nearest element of 'group_name', regardless of its visible status
 func get_closest_element(group_name, reference):
 	var elements = get_elements(group_name)
 	var closest_element
@@ -31,6 +32,23 @@ func get_closest_element(group_name, reference):
 			closest_distance = distance
 			closest_element = element
 
+	return closest_element
+
+
+#This function returns the nearest element of 'group_name' with element.visible = true
+func get_closest_visible_element(group_name, reference):
+	var elements = get_elements(group_name)
+	var closest_element
+	var closest_distance = 10000000
+	
+	for element in elements:
+		if element.visible == false:
+			continue
+		var distance = reference.position.distance_to(element.position)
+		if  distance < closest_distance:
+			closest_distance = distance
+			closest_element = element
+	
 	return closest_element
 
 

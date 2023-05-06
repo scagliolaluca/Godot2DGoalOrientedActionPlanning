@@ -17,7 +17,11 @@ func _ready():
   # npc.
 	var agent = GoapAgent.new()
 	agent.init(self, [
-		RelaxGoal.new()
+		RelaxGoal.new(),
+		CalmDownGoal.new(),
+		FullGoal.new(),
+		SearchFoodGoal.new(),
+		HasLitFireGoal.new()
 	])
 	
 	add_child(agent)
@@ -36,7 +40,9 @@ func _process(_delta):
 
 
 
+
 func move_to(direction, delta):
+	direction = direction.normalized()
 	is_moving = true
 	is_attacking = false
 	$body.play("run")
@@ -68,6 +74,7 @@ func chop_tree(tree):
 	var is_finished = tree.chop()
 	is_attacking = not is_finished
 	return is_finished
+
 
 
 func calm_down():
