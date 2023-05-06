@@ -14,7 +14,7 @@ func is_valid() -> bool:
 	if WorldState.get_elements("food"):
 		return true
 	else:
-		return true
+		return false
 
 func get_cost(_blackboard) -> int:
 	#What cost does looking for and collecting a mushroom need?
@@ -44,3 +44,5 @@ func perform(_actor, delta):
 		nearest_mushroom.regrow()
 		WorldState.set_state("has_mushroom", true)
 		return true
+	# Shouldn't happen, but it's better for the action to be "finished" if it is impossible
+	return true
