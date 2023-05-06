@@ -21,7 +21,8 @@ func _ready():
 		CalmDownGoal.new(),
 		FullGoal.new(),
 		SearchFoodGoal.new(),
-		HasLitFireGoal.new()
+		HasLitFireGoal.new(),
+		DrinkGoal.new()
 	])
 	
 	add_child(agent)

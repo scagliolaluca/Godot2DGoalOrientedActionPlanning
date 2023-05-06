@@ -22,11 +22,11 @@ func get_cost(_blackboard) -> int:
 	#What cost does looking for and chopping a tree have?
 	#return 6
 	#how about the distance to it, capped at a certain point
-	var someTree = WorldState.get_closest_element("tree", _blackboard) #reference in function has to be the player
-	if someTree:
-		return max(someTree.position.distance_to(_blackboard.position),10)
-	else:
-		return 10 #idk no tree then?
+	#var someTree = WorldState.get_closest_element("tree", player) #we dont have a player here
+	#if someTree:
+	#	return max(someTree.position.distance_to(player.position),10)
+	#else:
+	return 10 #idk no tree then?
 
 func perform(actor,delta):
 	var someTree = WorldState.get_closest_element("tree", actor)
