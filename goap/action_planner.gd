@@ -6,6 +6,7 @@ extends Node
 class_name GoapActionPlanner
 
 var _actions: Array
+var lastgoal: String
 
 #
 # class to store plans
@@ -30,7 +31,9 @@ func set_actions(actions: Array):
 # Returns a list of actions to be executed.
 #
 func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
-	print("Goal: %s" % goal.get_clazz())
+	if goal.get_clazz() != lastgoal:
+		print("Goal: %s" % goal.get_clazz())
+		lastgoal = goal.get_clazz()
 	WorldState.console_message("Goal: %s" % goal.get_clazz())
 	#get the desired goal and find the best plan to achieve it
 	var desired_state = goal.get_desired_state().duplicate()

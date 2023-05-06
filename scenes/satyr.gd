@@ -22,7 +22,7 @@ func _ready():
 		FullGoal.new(),
 		SearchFoodGoal.new(),
 		HasLitFireGoal.new(),
-		DrinkGoal.new()
+		DrinkGoal.new(),
 	])
 	
 	add_child(agent)

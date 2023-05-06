@@ -1,7 +1,7 @@
 [gd_scene load_steps=40 format=3 uid="uid://b5kiptbuouxhc"]
 
-[ext_resource type="Texture2D" uid="uid://bs57pdbdpjjhw" path="res://sprites/forest_.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://eg5o5aiu282a" path="res://sprites/forestDecoration_0.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://ci8bxxipqx2t" path="res://sprites/forest_.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://dua4svd764aao" path="res://sprites/forestDecoration_0.png" id="2"]
 [ext_resource type="PackedScene" uid="uid://bnysn00thw3g2" path="res://scenes/troll.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://cr6noovmcl47a" path="res://scenes/satyr.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://b17kgpyktoyps" path="res://scenes/tree.tscn" id="5"]
@@ -4463,13 +4463,16 @@ position = Vector2(230, 230)
 position = Vector2(189.468, 165.449)
 
 [node name="water_spot" type="Marker2D" parent="." groups=["water_spot"]]
-position = Vector2(80,200)
+position = Vector2(80, 200)
+
 [node name="water_spot2" type="Marker2D" parent="." groups=["water_spot"]]
-position = Vector2(120,200)
+position = Vector2(120, 200)
+
 [node name="water_spot3" type="Marker2D" parent="." groups=["water_spot"]]
-position = Vector2(80,235)
+position = Vector2(80, 235)
+
 [node name="water_spot4" type="Marker2D" parent="." groups=["water_spot"]]
-position = Vector2(120,235)
+position = Vector2(120, 235)
 
 [connection signal="timeout" from="hunger_timer" to="." method="_on_hanger_timer_timeout"]
 [connection signal="pressed" from="HUD/VBoxContainer/MarginContainer/HBoxContainer/reload" to="." method="_on_reload_pressed"]
