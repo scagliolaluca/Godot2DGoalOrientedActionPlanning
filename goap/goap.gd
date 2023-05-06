@@ -19,7 +19,8 @@ func _ready():
 		FindCoverAction.new(),
 		EatAction.new(),
 		CollectMushroomAction.new(),
-		BuildFireAction.new()
+		BuildFireAction.new(),
+		CollectWoodStockAction.new()
 	])
 
 
