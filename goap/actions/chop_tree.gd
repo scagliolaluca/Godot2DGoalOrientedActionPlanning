@@ -29,7 +29,7 @@ func get_cost(_blackboard) -> int:
 		return 10 #idk no tree then?
 
 func perform(actor,delta):
-	var someTree = WorldState.get_closest_element("tree", actor)
+	var someTree = WorldState.get_closest_visible_element("tree", actor)
 	if someTree:
 		if someTree.position.distance_to(actor.position) < 2: #just like in firepit
 			if actor.chop_tree(someTree):
