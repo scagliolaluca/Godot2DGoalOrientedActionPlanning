@@ -19,4 +19,5 @@ func chop():
 func regrow():
 	self.visible = false
 	await get_tree().create_timer(90).timeout
+	_hp = 3
 	self.visible = true
