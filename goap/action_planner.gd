@@ -54,7 +54,6 @@ func _find_best_plan(goal, desired_state, blackboard):
 			"desired_states": desired_state,
 		}
 	if _build_plans(tree, blackboard):
-		
 		return _get_cheapest_plan(_transform_tree_into_array(tree, blackboard))
 	else:
 		WorldState.console_message({"Warning": "No plan found"})
@@ -106,26 +105,30 @@ func _build_plans(step, blackboard):
 							# When an action has a desired effect:
 							# Copy desired_states, because we are iterating over them.
 							# Erase the actions effect from the conditions and add the preconditions.
-							# Then erase all conditions that have allready been met
-							# Now conditions are all the desired states that have not been adress after the current action.
 							var conditions = step.desired_states.duplicate()
 							conditions.erase(effect)
 							conditions.merge(action.get_preconditions())
+							
+							# Then erase all conditions that have allready been met
+							# After that conditions are all the desired states that have not been adress after the current action.
+							var keys_to_delete_from_dictionary = []
 							for condition in conditions:
 								if WorldState.get_state(condition) == conditions[condition]:
-									conditions.erase(condition)
+									keys_to_delete_from_dictionary.append(condition)
+							for key in keys_to_delete_from_dictionary:
+								conditions.erase(key)
 							
 							if conditions != {}:
-								# when conditions is not empty, the plan is not finished, so we add a child in which we recursively call this function
-								var next_step ={
-									"action": action,
-									"children": [],
-									"desired_states": conditions
-									}
-								valid_plan = _build_plans(next_step, blackboard)
-								if valid_plan:
-									step.children.append(next_step)
-						
+#								# when conditions is not empty, the plan is not finished, so we add a child in which we recursively call this function
+										var next_step ={
+											"action": action,
+											"children": [],
+											"desired_states": conditions
+											}
+										valid_plan = _build_plans(next_step, blackboard)
+										if valid_plan:
+											step.children.append(next_step)
+
 							else:
 								# when conditions is empty, the plan is finnished. so we add a child with the current action and
 								# set valid_plan to true, because we found a valid plan
@@ -136,7 +139,7 @@ func _build_plans(step, blackboard):
 									}
 								step.children.append(final_step)
 								valid_plan = true
-	
+
 	return valid_plan
 
 
