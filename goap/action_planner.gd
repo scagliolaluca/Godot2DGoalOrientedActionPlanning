@@ -45,7 +45,7 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 # _get_cheapest_plan to calculate the best overall plan.
 #
 func _find_best_plan(goal, desired_state, blackboard):
-	#dictionary can be changed in function (like a pointer), so you can only return bool in _build_plans
+	#dictionary can be changed in function, so you can only return boolean in _build_plans, but still access result
 
 	var tree = {
 			"children": [],
@@ -94,29 +94,27 @@ func _get_cheapest_plan(plans):
 func _build_plans(step, blackboard):
 	#indicates if a valid plan exist
 	var valid_plan = false
+	# goes through all available actions, checks if they are valid and if they have an desired effect
 	for action in _actions:
 		if action.is_valid():
 			var effects = action.get_effects()
 			for effect in effects:
 				for desired_state in step.desired_states:
 					if {effect: effects[effect]} == {desired_state: step.desired_states[desired_state]}:
-						#neccessary for multible preconditions
+						# When an action has a desired effect
+						# Copy desired_states, because we are iterating over them.
+						# Erase the effect from the conditions and add the preconditions.
+						# Now conditions are all the desired states that have not been adress after the current action.
 						var conditions = step.desired_states.duplicate()
 						conditions.erase(effect)
 						conditions.merge(action.get_preconditions())
 						if conditions != {}:
-							
-							#var next_step ={
-							#	"action": action,
-							#	"children": [],
-							#	"desired_states": conditions
-							#	}
-							#valid_plan = true
-							#step.children.append(_build_plans(next_step, blackboard))
-					
-							#LucaTEST:
+							# when conditions is not empty,
+							# we check if the condition is allready fullfilled.
 							for condition in conditions:
 								if WorldState.get_state(condition) == conditions[condition]:
+									# => the paln is finished, so we add a child with the current action and
+									# set valid_plan to true, because we found a valid plan
 									var final_step ={
 									"action": action,
 									"children": [],
@@ -127,6 +125,7 @@ func _build_plans(step, blackboard):
 									step.children.append(final_step)
 									valid_plan = true
 								else:
+									# => the plan is not finished, so we add a child in which we recursively call this function
 									var next_step ={
 										"action": action,
 										"children": [],
@@ -136,8 +135,9 @@ func _build_plans(step, blackboard):
 									if _build_plans(next_step, blackboard):
 										step.children.append(next_step)
 					
-					
 						else:
+							# when conditions is empty, the plan is finnished. so we add a child with the current action and
+							# set valid_plan to true, because we found a valid plan
 							var final_step ={
 									"action": action,
 									"children": [],
