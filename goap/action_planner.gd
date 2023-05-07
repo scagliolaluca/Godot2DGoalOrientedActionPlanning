@@ -8,7 +8,7 @@ class_name GoapActionPlanner
 var _actions: Array
 
 #
-# class to store plans
+# The Plan class is used to store plans
 #
 class Plan:
 	var actions
@@ -37,7 +37,8 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 	#If there is no desired state we can't find a plan to achieve it so retun empty array
 	if desired_state.is_empty():
 		return []
-	return _find_best_plan(goal, desired_state, blackboard)
+	var plan = _find_best_plan(goal, desired_state, blackboard)
+	return plan
 
 
 #
@@ -45,7 +46,8 @@ func get_plan(goal: GoapGoal, blackboard = {}) -> Array:
 # _get_cheapest_plan to calculate the best overall plan.
 #
 func _find_best_plan(goal, desired_state, blackboard):
-	#dictionary can be changed in function, so you can only return boolean in _build_plans, but still access result
+	# Dictionary can be changed in the function, _build_plans return boolean,
+	# but the result is still accessable.
 
 	var tree = {
 			"children": [],
@@ -65,7 +67,7 @@ func _find_best_plan(goal, desired_state, blackboard):
 # Returns actions included in the cheapest plan.
 #
 func _get_cheapest_plan(plans):
-	#cycle through all plans and compare costs
+	# iterate over all plans and compare costs
 	var cheapest_plan = plans[0]
 	_print_plan(plans[0])
 	for i in range(1, plans.size()):
@@ -92,84 +94,50 @@ func _get_cheapest_plan(plans):
 # circular dependencies. This is easy to implement though.
 #
 func _build_plans(step, blackboard):
-	#indicates if a valid plan exist
+	# initialize variable to keep track of whether a valid plan exists
 	var valid_plan = false
-	# goes through all available actions, checks if they are valid and if they have an desired effect
-	for action in _actions:
-		if action.is_valid():
-			var effects = action.get_effects()
-			for effect in effects:
-				for desired_state in step.desired_states:
-					if {effect: effects[effect]} == {desired_state: step.desired_states[desired_state]}:
-						# When an action has a desired effect
-						# Copy desired_states, because we are iterating over them.
-						# Erase the effect from the conditions and add the preconditions.
-						# Now conditions are all the desired states that have not been adress after the current action.
-						var conditions = step.desired_states.duplicate()
-						conditions.erase(effect)
-						conditions.merge(action.get_preconditions())
-						if conditions != {}:
-							# when conditions is not empty,
-							# we check if the condition is allready fullfilled.
+	# iterate over all desired effects and checks if there is a valid action with the desired effect
+	for desired_state in step.desired_states:
+		for action in _actions:
+			if action.is_valid():
+				var effects = action.get_effects()
+				for effect in effects:
+						if {effect: effects[effect]} == {desired_state: step.desired_states[desired_state]}:
+							# When an action has a desired effect:
+							# Copy desired_states, because we are iterating over them.
+							# Erase the actions effect from the conditions and add the preconditions.
+							# Then erase all conditions that have allready been met
+							# Now conditions are all the desired states that have not been adress after the current action.
+							var conditions = step.desired_states.duplicate()
+							conditions.erase(effect)
+							conditions.merge(action.get_preconditions())
 							for condition in conditions:
 								if WorldState.get_state(condition) == conditions[condition]:
-									# => the paln is finished, so we add a child with the current action and
-									# set valid_plan to true, because we found a valid plan
-									var final_step ={
+									conditions.erase(condition)
+							
+							if conditions != {}:
+								# when conditions is not empty, the plan is not finished, so we add a child in which we recursively call this function
+								var next_step ={
 									"action": action,
 									"children": [],
-									"desired_states": {}
+									"desired_states": conditions
 									}
-									
-									#valid_plan = true
-									step.children.append(final_step)
-									valid_plan = true
-								else:
-									# => the plan is not finished, so we add a child in which we recursively call this function
-									var next_step ={
+								valid_plan = _build_plans(next_step, blackboard)
+								if valid_plan:
+									step.children.append(next_step)
+						
+							else:
+								# when conditions is empty, the plan is finnished. so we add a child with the current action and
+								# set valid_plan to true, because we found a valid plan
+								var final_step ={
 										"action": action,
 										"children": [],
-										"desired_states": conditions
-										}
-									valid_plan = true
-									if _build_plans(next_step, blackboard):
-										step.children.append(next_step)
-					
-						else:
-							# when conditions is empty, the plan is finnished. so we add a child with the current action and
-							# set valid_plan to true, because we found a valid plan
-							var final_step ={
-									"action": action,
-									"children": [],
-									"desired_states": {}
-								}
-							step.children.append(final_step)
-							valid_plan = true
+										"desired_states": {}
+									}
+								step.children.append(final_step)
+								valid_plan = true
 	
-	return valid_plan	
-	#if valid_plan == true:
-	#	return step
-	
-#	var valid_plan = false
-#	#go through all actions and check if they have the d esired effect
-#	for desired_state in step.desired_states:
-#		for action in _actions:
-#			for effect in action.get_effects():
-#				if desired_state == effect:
-#					#for actions that have the desired effect repeat
-#					var preconditions = action.get_preconditions()
-#					if preconditions:
-#						for precondition in action.get_preconditions():
-#							var next_step ={
-#								"action": action,
-#								"children": [],
-#								"desired_states": action.get_preconditions()
-#							}
-#							step.children.add(_build_plans(next_step, blackboard))
-#					# if there are not preconditions it is the end of the plan
-#					else:
-#						valid_plan = true
-#	return valid_plan
+	return valid_plan
 
 
 #
