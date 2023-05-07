@@ -17,8 +17,12 @@ func is_valid() -> bool:
 		return false
 
 func get_cost(_blackboard) -> int:
-	#What cost does looking for and collecting a mushroom need?
-	return 5
+	# Cost consists of chopping distance to walk
+	var someFood = WorldState.get_closest_visible_element("food", _blackboard) #reference in function has to be the player
+	if someFood:
+		return someFood.position.distance_to(_blackboard.position)
+	else:
+		return 1000 # Failsafe, shouldn't happen
 
 #only collect mushroom when no mushroom in inventory
 func get_preconditions() -> Dictionary:
